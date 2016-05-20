@@ -145,12 +145,14 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
         element.addClass(attrs.windowClass || '');
         element.addClass(attrs.windowTopClass || '');
         scope.size = attrs.size;
+        scope.mouseDownEvt = scope.mouseUpEvt = null;
 
         scope.close = function(evt) {
           var modal = $modalStack.getTop();
           if (modal && modal.value.backdrop &&
             modal.value.backdrop !== 'static' &&
-            evt.target === evt.currentTarget) {
+            scope.mouseDownEvt && scope.mouseUpEvt &&
+            scope.mouseDownEvt.target === scope.mouseUpEvt.target) {
             evt.preventDefault();
             evt.stopPropagation();
             $modalStack.dismiss(modal.key, 'backdrop click');
@@ -159,6 +161,12 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
 
         // moved from template to fix issue #2280
         element.on('click', scope.close);
+        element.on('mousedown', function(evt) {
+          scope.mouseDownEvt = evt;
+        });
+        element.on('mouseup', function(evt) {
+          scope.mouseUpEvt = evt;
+        });
 
         // This property is only added to the scope for the purpose of detecting when this directive is rendered.
         // We can detect that by using this property in the template associated with this directive and then use
