@@ -427,7 +427,10 @@ describe('$uibModal', function() {
       var modal = open({template: '<div>Content</div>'});
       expect($document).toHaveModalsOpen(1);
 
-      $document.find('body > div.modal').click();
+      var selector = 'body > div.modal';
+      $document.find(selector).mousedown();
+      $document.find(selector).mouseup();
+      $document.find(selector).click();
       $animate.flush();
       $rootScope.$digest();
       $animate.flush();
