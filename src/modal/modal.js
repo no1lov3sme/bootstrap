@@ -151,6 +151,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
           var modal = $modalStack.getTop();
           if (modal && modal.value.backdrop &&
             modal.value.backdrop !== 'static' &&
+            evt.target === evt.currentTarget &&
             scope.mouseDownEvt && scope.mouseUpEvt &&
             scope.mouseDownEvt.target === scope.mouseUpEvt.target) {
             evt.preventDefault();
